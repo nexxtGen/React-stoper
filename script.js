@@ -6,25 +6,33 @@ class Stopwatch {
         this.reset(); // mEtody kt wykonają sie odrazu przy utw instancji obiektu
         this.print(this.times);        
     }
-    // metody które wykonują się poprzez odp na działanie uzytkownika.
 
-    // Metoda do resetu czasu.
+    // metody które wykonują się poprzez odp na działanie uzytkownika.      
+    // resetuje stopwatcha
     resetTimer() {
         this.times = {
             minutes: 0,
             seconds: 0,
             miliseconds: 0
         };        
-        this.print();
+        this.print();        
+    }
+    //reset listy z zapisanymi czasami
+    resetList() {
         this.list.innerHTML = '';
     }
-    //metoda do umieszczania danego czasu po naciśnięciu przycisku stop 
+    //metoda do umieszczania do tworzenia elementu listy w drzewie DOM
     printItem(time) {
         let timerList = document.createElement("li");
         let item = document.createTextNode(time);
         timerList.appendChild(item);
         document.getElementById("timerList").appendChild(timerList);
     }  
+    // dodaje aktualny czas do listy
+    addToList() {
+        let item = `${this.format(this.times)}`;
+        this.printItem(item);
+    }
 
     //Tworzę metody które wykonają się zaraz po stworzeniu nowej instancji Stopwatch (reset i print).
     reset() { // metoda reset
@@ -59,11 +67,12 @@ class Stopwatch {
     }
 
     stop() {
+        /*
         let time = this.times;
-        let test = this.format(time)       
-
+        let test = this.format(time); 
         console.log("czas:", test);
-        this.printItem(test);      
+        this.printItem(test); 
+        */
 
         this.running = false;
         clearInterval(this.watch);
@@ -100,11 +109,17 @@ const stopwatch = new Stopwatch(document.querySelector('.stopwatch')); // Tworz�
 
 
 
-let startButton = document.getElementById('start');
+const startButton = document.getElementById('start');
 startButton.addEventListener('click', () => stopwatch.start());
 
-let stopButton = document.getElementById('stop');
+const stopButton = document.getElementById('stop');
 stopButton.addEventListener('click', () => stopwatch.stop());
 
-let resetButton = document.getElementById('reset');
+const saveButton = document.getElementById('save');
+saveButton.addEventListener('click', () => stopwatch.addToList());
+
+const resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', () => stopwatch.resetTimer());
+
+const resetList = document.getElementById('resetList');
+resetList.addEventListener('click', () => stopwatch.resetList());

@@ -14,9 +14,9 @@ var Stopwatch = function () {
         this.reset(); // mEtody kt wykonają sie odrazu przy utw instancji obiektu
         this.print(this.times);
     }
-    // metody które wykonują się poprzez odp na działanie uzytkownika.
 
-    // Metoda do resetu czasu.
+    // metody które wykonują się poprzez odp na działanie uzytkownika.      
+    // resetuje stopwatcha
 
 
     _createClass(Stopwatch, [{
@@ -28,9 +28,15 @@ var Stopwatch = function () {
                 miliseconds: 0
             };
             this.print();
+        }
+        //reset listy z zapisanymi czasami
+
+    }, {
+        key: "resetList",
+        value: function resetList() {
             this.list.innerHTML = '';
         }
-        //metoda do umieszczania danego czasu po naciśnięciu przycisku stop 
+        //metoda do umieszczania do tworzenia elementu listy w drzewie DOM
 
     }, {
         key: "printItem",
@@ -39,6 +45,14 @@ var Stopwatch = function () {
             var item = document.createTextNode(time);
             timerList.appendChild(item);
             document.getElementById("timerList").appendChild(timerList);
+        }
+        // dodaje aktualny czas do listy
+
+    }, {
+        key: "addToList",
+        value: function addToList() {
+            var item = "" + this.format(this.times);
+            this.printItem(item);
         }
 
         //Tworzę metody które wykonają się zaraz po stworzeniu nowej instancji Stopwatch (reset i print).
@@ -91,11 +105,12 @@ var Stopwatch = function () {
     }, {
         key: "stop",
         value: function stop() {
-            var time = this.times;
-            var test = this.format(time);
-
+            /*
+            let time = this.times;
+            let test = this.format(time); 
             console.log("czas:", test);
-            this.printItem(test);
+            this.printItem(test); 
+            */
 
             this.running = false;
             clearInterval(this.watch);
@@ -149,7 +164,17 @@ stopButton.addEventListener('click', function () {
     return stopwatch.stop();
 });
 
+var saveButton = document.getElementById('save');
+saveButton.addEventListener('click', function () {
+    return stopwatch.addToList();
+});
+
 var resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', function () {
     return stopwatch.resetTimer();
+});
+
+var resetList = document.getElementById('resetList');
+resetList.addEventListener('click', function () {
+    return stopwatch.resetList();
 });
