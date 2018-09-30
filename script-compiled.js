@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -10,14 +10,41 @@ var Stopwatch = function () {
 
         this.running = false;
         this.display = display;
-        this.reset();
+        this.list = document.getElementById("timerList");
+        this.reset(); // mEtody kt wykonają sie odrazu przy utw instancji obiektu
         this.print(this.times);
     }
-    //Tworzę metody które wykonają się zaraz po stworzeniu nowej instancji Stopwatch (reset i print).
+    // metody które wykonują się poprzez odp na działanie uzytkownika.
+
+    // Metoda do resetu czasu.
 
 
     _createClass(Stopwatch, [{
-        key: 'reset',
+        key: "resetTimer",
+        value: function resetTimer() {
+            this.times = {
+                minutes: 0,
+                seconds: 0,
+                miliseconds: 0
+            };
+            this.print();
+            this.list.innerHTML = '';
+        }
+        //metoda do umieszczania danego czasu po naciśnięciu przycisku stop 
+
+    }, {
+        key: "printItem",
+        value: function printItem(time) {
+            var timerList = document.createElement("li");
+            var item = document.createTextNode(time);
+            timerList.appendChild(item);
+            document.getElementById("timerList").appendChild(timerList);
+        }
+
+        //Tworzę metody które wykonają się zaraz po stworzeniu nowej instancji Stopwatch (reset i print).
+
+    }, {
+        key: "reset",
         value: function reset() {
             // metoda reset
             this.times = {
@@ -26,23 +53,24 @@ var Stopwatch = function () {
                 miliseconds: 0
             };
         }
+
         //Implementacja metody print. etoda ta ustawia wewnętrzny tekst elementu DOM, który znajduje się pod atrybutem display. 
         //Dzieje się to przy użyciu kolejnej, specjalnej metody format, która będzie zajmowała się przygotowaniem tekstu do wyświetlenia:
 
     }, {
-        key: 'print',
+        key: "print",
         value: function print() {
             this.display.innerText = this.format(this.times);
         }
         //Metoda format zwraca szablon (ang. template), który wykorzystuje obiekt (times) podany do metody. Korzystamy w tym miejscu ze znajomej konstrukcji ${nazwa_zmiennej}, która umożliwia nam przekazanie wyniku kolejnej funkcji (pad0) jako jeden z elementu szablonu.
 
     }, {
-        key: 'format',
+        key: "format",
         value: function format(times) {
-            return pad0(times.minutes) + ':' + pad0(times.seconds) + ':' + pad0(Math.floor(times.miliseconds));
+            return pad0(times.minutes) + ":" + pad0(times.seconds) + ":" + pad0(Math.floor(times.miliseconds));
         }
     }, {
-        key: 'start',
+        key: "start",
         value: function start() {
             var _this = this;
 
@@ -54,15 +82,21 @@ var Stopwatch = function () {
             }
         }
     }, {
-        key: 'step',
+        key: "step",
         value: function step() {
             if (!this.running) return;
             this.calculate();
             this.print();
         }
     }, {
-        key: 'stop',
+        key: "stop",
         value: function stop() {
+            var time = this.times;
+            var test = this.format(time);
+
+            console.log("czas:", test);
+            this.printItem(test);
+
             this.running = false;
             clearInterval(this.watch);
         }
@@ -71,7 +105,7 @@ var Stopwatch = function () {
         // a interwał wykonuje się co 10ms, należało podzielić 1000 przez 10 - stąd warunek this.times.miliseconds >= 100.
 
     }, {
-        key: 'calculate',
+        key: "calculate",
         value: function calculate() {
             this.times.miliseconds += 1;
             if (this.times.miliseconds >= 100) {
@@ -100,9 +134,10 @@ function pad0(value) {
 //Funkcja pad0 przyjmuje na wejście wartość liczbową, przekształca ją na stringa, a następnie sprawdza
 // czy długość tego przekształcenia jest mniejsza od 2 dodając tym samym zero przed tę liczbę.
 
-var stopwatch = new Stopwatch(document.querySelector('.stopwatch'));
+var stopwatch = new Stopwatch(document.querySelector('.stopwatch')); // Tworzę instancje kl Stopwatch
 
 //Rejestracja metod które będą się wykonywały po kliknięciu na odpowiednie przyciski.
+
 
 var startButton = document.getElementById('start');
 startButton.addEventListener('click', function () {
@@ -112,4 +147,9 @@ startButton.addEventListener('click', function () {
 var stopButton = document.getElementById('stop');
 stopButton.addEventListener('click', function () {
     return stopwatch.stop();
+});
+
+var resetButton = document.getElementById('reset');
+resetButton.addEventListener('click', function () {
+    return stopwatch.resetTimer();
 });

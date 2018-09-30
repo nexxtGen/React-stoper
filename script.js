@@ -2,21 +2,43 @@ class Stopwatch {
     constructor(display) {
         this.running = false;
         this.display = display;
-        this.reset();
-        this.print(this.times);
+        this.list = document.getElementById("timerList");        
+        this.reset(); // mEtody kt wykonają sie odrazu przy utw instancji obiektu
+        this.print(this.times);        
     }
+    // metody które wykonują się poprzez odp na działanie uzytkownika.
+
+    // Metoda do resetu czasu.
+    resetTimer() {
+        this.times = {
+            minutes: 0,
+            seconds: 0,
+            miliseconds: 0
+        };        
+        this.print();
+        this.list.innerHTML = '';
+    }
+    //metoda do umieszczania danego czasu po naciśnięciu przycisku stop 
+    printItem(time) {
+        let timerList = document.createElement("li");
+        let item = document.createTextNode(time);
+        timerList.appendChild(item);
+        document.getElementById("timerList").appendChild(timerList);
+    }  
+
     //Tworzę metody które wykonają się zaraz po stworzeniu nowej instancji Stopwatch (reset i print).
     reset() { // metoda reset
         this.times = {
             minutes: 0,
             seconds: 0,
             miliseconds: 0
-        };
+        };          
     }
+    
     //Implementacja metody print. etoda ta ustawia wewnętrzny tekst elementu DOM, który znajduje się pod atrybutem display. 
     //Dzieje się to przy użyciu kolejnej, specjalnej metody format, która będzie zajmowała się przygotowaniem tekstu do wyświetlenia:
     print() {
-        this.display.innerText = this.format(this.times);
+        this.display.innerText = this.format(this.times);        
     }
     //Metoda format zwraca szablon (ang. template), który wykorzystuje obiekt (times) podany do metody. Korzystamy w tym miejscu ze znajomej konstrukcji ${nazwa_zmiennej}, która umożliwia nam przekazanie wyniku kolejnej funkcji (pad0) jako jeden z elementu szablonu.
     format(times) {
@@ -37,6 +59,12 @@ class Stopwatch {
     }
 
     stop() {
+        let time = this.times;
+        let test = this.format(time)       
+
+        console.log("czas:", test);
+        this.printItem(test);      
+
         this.running = false;
         clearInterval(this.watch);
     }
@@ -66,12 +94,17 @@ function pad0(value) {
 //Funkcja pad0 przyjmuje na wejście wartość liczbową, przekształca ją na stringa, a następnie sprawdza
 // czy długość tego przekształcenia jest mniejsza od 2 dodając tym samym zero przed tę liczbę.
 
-const stopwatch = new Stopwatch(document.querySelector('.stopwatch'));
+const stopwatch = new Stopwatch(document.querySelector('.stopwatch')); // Tworzę instancje kl Stopwatch
 
 //Rejestracja metod które będą się wykonywały po kliknięciu na odpowiednie przyciski.
+
+
 
 let startButton = document.getElementById('start');
 startButton.addEventListener('click', () => stopwatch.start());
 
 let stopButton = document.getElementById('stop');
 stopButton.addEventListener('click', () => stopwatch.stop());
+
+let resetButton = document.getElementById('reset');
+resetButton.addEventListener('click', () => stopwatch.resetTimer());
