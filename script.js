@@ -5,8 +5,14 @@
 // Destrukturyzacja w ES6!
 // Jak się będzie czas to rozbić na osobne komponenty npm Stopwatch, time, list
 //Kupić mechaniczną klawiaturę!
-
-class Stopwatch extends React.Component.Component {
+function pad0(value) {
+    let result = value.toString();
+    if (result.length < 2) {
+        result = '0' + result;
+    }
+    return result;
+}
+class Stopwatch extends React.Component {
 
     constructor(props) { // Konstruktor pełni TERAZ rolę componentWillMount.
         super(props);
@@ -19,18 +25,10 @@ class Stopwatch extends React.Component.Component {
                 miliseconds: 0
             } // za tym już nic nie dodaje do state, dlatego brak przecinka. Tak samo jak w JSONie
         }
-    } 
-    
-    pad0(value) {
-        let result = value.toString();
-        if (result.length < 2) {
-            result = '0' + result;
-        }
-        return result;
-    };
-
+    }   
+    /*
     //Metoda do resetu stanu komponentu. ------!!!!!! Przećwiczyć i dokładnie zapamiętać składnię ES6. Odzwyczaić się od poprzedniej!!!!--------
-    resetTimer() {
+    resetTimer(){
         this.setState({
             times: {
                 minutes: 0,
@@ -47,25 +45,24 @@ class Stopwatch extends React.Component.Component {
 		};
         this.setState({ resultList: [...this.state.resultList, newItem]});        
     }
-    clearList() {
+    clearList(){
         //wywołanie metody ustawi tablicę jako pustą.
         this.setState({ resultList: [] }); //Odzwyczaić się od starej składni i pisać tam gdzie to zalecane - jednolinijkowo !!!
     }
+*/
     //metoda do odp formatowania czasu
     format() {
         // Teraz wartości i klucze są przechowywane w state!
         //Destrukturyzacja tablicy z this.state.times
         let {minutes, seconds, miliseconds} = this.state.times; //w wyniku destruction uzyskam bezposredni dostęp do wartosci 
         //  zamiast pisać "let minutes = this.state.times.minutes;"  Skraca kod.
-        return `${pad0(minutes)}:${pad0(seconds)}:${pad0(Match.floor(miliseconds))}`; //template literals -> 00:00:00 . Pamiętac o return
+        return `${pad0(minutes)}:${pad0(seconds)}:${pad0(Math.floor(miliseconds))}`; //template literals -> 00:00:00 . Pamiętac o return
     }    
 
     start() {
         if (!this.state.running) { // Jeśli nie jest włączony to:
-            this.setState({ //ustaw state na
-                running: true,
-                watch: setInterval(() => this.step(), 10) //Dodaje nowy state
-            })
+            this.setState({ running: true })
+            this.watch = setInterval(() => this.step(), 10) //Dodaje nowy state
         }
     }
     step() {
@@ -75,10 +72,10 @@ class Stopwatch extends React.Component.Component {
 
     stop() {
         this.setState({running: false});
-        clearInterval(this.state.watch);
+        clearInterval(this.watch);
     } 
-
-    calculate() {
+    
+    calculate(){
 		this.setState({ 
 			times: {
 				minutes: this.state.times.minutes,
@@ -104,8 +101,8 @@ class Stopwatch extends React.Component.Component {
 				}
 			});
 		};
-    }
-    
+    } 
+
     render() {
 
         return (
@@ -114,13 +111,13 @@ class Stopwatch extends React.Component.Component {
                     <h2 className="title">Stopwatch</h2>
                     <div className="buttons-stopwatch">
                         <nav className="controls">
-                            <a href="#" class="button" onCLick={() => this.start()}>Start</a>
-                            <a href="#" class="button" onCLick={() => this.stop()}>Stop</a>
-                            <a href="#" class="button" onCLick={() => this.addItem()}>Save</a>
-                            <a href="#" class="button" onCLick={() => this.resetTimer()}>Reset</a>
+                            <a href="#" class="button" onClick={() => this.start()}>Start</a>
+                            <a href="#" class="button" onClick={() => this.stop()}>Stop</a>
+                            <a href="#" class="button" onClick={() => this.addItem()}>Save</a>
+                            <a href="#" class="button" onClick={() => this.resetTimer()}>Reset</a>
                         </nav>
                     </div>
-                    <div className="stopwatch"></div>
+                    <div className="stopwatch">{this.format()}</div>
                 </div>        
                 <div className="list-container">
                     <h3>Timer list</h3>
