@@ -8,28 +8,12 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="stopwatch-container">
-            <h2 class="title">Stopwatch</h2>
-            <div class="buttons-stopwatch">
-                <nav class="controls">
-                    <a href="#" class="button" id="start">Start</a>
-                    <a href="#" class="button" id="stop">Stop</a>
-                    <a href="#" class="button" id="save">Save</a>
-                    <a href="#" class="button" id="reset">Reset</a>
-                </nav>
-            </div>
-            <div class="stopwatch"></div>
-        </div>        
-        <div class="list-container">
-            <h3>Timer list</h3>
-            <a href="#" class="button" id="resetList">Reset List</a>
-            <div class="item-container">
-                <ol class="results" id="timerList" ></ol>
-            </div>
-        </div>
-    </div>
+    <div id="app"></div>   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
-    <script type="text/javascript" src="script.js"></script>
+		<script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+  		<script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+  		<script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+    
+    <script type="text/babel" src="script-compiled.js"></script>
 </body>
 </html>

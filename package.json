@@ -1,5 +1,5 @@
 {
-  "name": "React-stoper",
+  "name": "React-gif-search",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,20 +18,19 @@
     "watch": "npm-run-all -p build watch:*",
     "watch:sassprefixer": "onchange sass/*.scss -- npm-run-all build:sass build:autoprefixer",
     "watch:browsersync": "browser-sync start --server --files css/*.css *.html --watch",
-    "start": "http-server",
-    "babel": "babel script.js --watch --out-file script-compiled.js"
+    "start": "babel script.js --watch --out-file script-compiled.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nexxtGen/React-stoper.git"
+    "url": "git+https://github.com/nexxtGen/React-gif-search.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nexxtGen/React-stoper/issues"
+    "url": "https://github.com/nexxtGen/React-gif-search/issues"
   },
-  "homepage": "https://github.com/nexxtGen/React-stoper#readme",
+  "homepage": "https://github.com/nexxtGen/React-gif-search#readme",
   "devDependencies": {
     "autoprefixer": "^9.0.2",
     "autoprefixer-cli": "^1.0.0",
@@ -52,6 +51,7 @@
     "sass": "^1.11.0"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "glob-run": "^0.1.6",
     "postcss-cli-simple": "^1.0.4"
   }
